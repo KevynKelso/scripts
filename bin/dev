@@ -1,0 +1,55 @@
+#!/bin/bash
+currentDir=$(pwd)
+usage="USAGE: dev <server_name> (or be in the root directory of the project with no arguments)."
+
+if [ "$1" != "" ]; then
+    currentDir="/Users/kkelso/Desktop"
+fi
+
+if [ "$1" == "lynx" ] || [[ "$currentDir" =~ .*"/Users/kkelso/Desktop/projects/lynx-dashboard".* ]]; then
+    echo "Starting Lynx"
+    cd /Users/kkelso/Desktop/projects/lynx-dashboard
+    git checkout main
+    git pull
+    yarn install
+    /usr/bin/open -a "/Applications/Google Chrome.app" 'http://localhost:3000'
+    yarn dev
+elif [ "$1" == "bmw" ] || [[ "$currentDir" =~ .*"/Users/kkelso/Desktop/projects/bmw".* ]]; then
+    echo "Starting bmw"
+    cd /Users/kkelso/Desktop/projects/bmw
+    git pull
+    yarn install
+    gatsby clean
+    gatsby develop
+elif [ "$1" == "caribou" ] || [[ "$currentDir" =~ .*"/Users/kkelso/Desktop/projects/caribou".* ]]; then
+    echo "Starting caribou"
+    cd /Users/kkelso/Desktop/projects/caribou
+    git pull
+    yarn install
+    gatsby clean
+    /usr/bin/open -a "/Applications/Google Chrome.app" 'http://localhost:8000'
+    gatsby develop
+elif [ "$1" == "hlit" ] || [[ "$currentDir" =~ .*"/Users/kkelso/Desktop/projects/healthliteracy".* ]]; then
+    echo "Starting hlit"
+    cd /Users/kkelso/Desktop/projects/healthliteracy
+    git pull
+    yarn install
+    netlify dev --port 8888
+elif [ "$1" == "flora" ] || [[ "$currentDir" =~ .*"/Users/kkelso/Desktop/projects/bscs-flora".* ]]; then
+    echo "Starting flora"
+    cd /Users/kkelso/Desktop/projects/bscs-flora
+    git pull
+    /usr/bin/open -a "/Applications/Google Chrome.app" 'http://localhost:3000'
+    npm run dev
+elif [ "$1" == "hq" ] || [[ "$currentDir" =~ .*"/Users/kkelso/Desktop/projects/collab-hq-gatsby".* ]]; then
+    echo "Starting collab-hq"
+    cd /Users/kkelso/Desktop/projects/collab-hq-gatsby
+    git pull
+    yarn install
+    gatsby clean
+    /usr/bin/open -a "/Applications/Google Chrome.app" 'http://localhost:8000'
+    gatsby develop
+else
+    echo "No dev site specified."
+    echo "$usage"
+fi

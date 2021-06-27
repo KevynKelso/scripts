@@ -1,0 +1,17 @@
+hour=$(date "+%H")
+min=$(date "+%M")
+echo "hour is $hour"
+echo "min is $min"
+
+if [ $hour -eq 9 ] && [ $min -lt 25 ] ; then
+	echo "It's time for discrete"
+
+elif [ $hour -eq 10 ] && [ $min -lt 50 ] ; then
+	echo "It's time for UNIX"
+
+elif [ $hour -eq 1 ] && [ $min -lt 40 ] ; then
+	echo "It's time for prob and stat"
+
+elif [ $hour -eq 12 ] && [ $min -lt 40 ] ; then
+	echo "test"
+fi

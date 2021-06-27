@@ -1,0 +1,108 @@
+#!/bin/bash
+
+# Regular Colors
+Black='\033[0;30m'        # Black
+Red='\033[0;31m'          # Red
+Green='\033[0;32m'        # Green
+Yellow='\033[0;33m'       # Yellow
+Blue='\033[0;34m'         # Blue
+Purple='\033[0;35m'       # Purple
+Cyan='\033[0;36m'         # Cyan
+White='\033[0;37m'        # White
+
+# Underline
+UBlack='\033[4;30m'       # Black
+URed='\033[4;31m'         # Red
+UGreen='\033[4;32m'       # Green
+UYellow='\033[4;33m'      # Yellow
+UBlue='\033[4;34m'        # Blue
+UPurple='\033[4;35m'      # Purple
+UCyan='\033[4;36m'        # Cyan
+UWhite='\033[4;37m'       # White
+
+Color_Off='\033[0m'       # Text Reset
+
+currentBranch=$(git branch --show-current)
+pr='no'
+currentTime=$(date "+%Y-%m-%d;%H:%M:%S")
+
+# PR logic
+if [ $currentBranch == "main" ] || [ $currentBranch == "master" ]; then
+    echo -ne "${UGreen}New Branch Name${Green}: "
+    read newBranch
+    echo -e "${Color_Off}"
+    if [ -z $newBranch ]; then
+        echo -ne "${URed}Committing to $currentBranch"
+        echo -e "${Color_Off}"
+    else
+        git checkout -b $newBranch
+        if [[ $? != 0 ]]; then exit 1; fi
+        currentBranch=$newBranch
+        read -p "Open a new pr? " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            pr='yes'
+        fi
+    fi
+fi
+
+# Cleaning
+$(git diff >> ~/logging/commit-diff-$currentTime.diff)
+cleanCommit.py $currentTime
+
+git add -A &> /dev/null
+git status
+if [[ $? != 0 ]]; then exit 1; fi
+
+echo -ne "${UYellow}Commit Message${Yellow}: "
+read message
+while [ "$(validateCommit.py $message)" == "not-valid" ]; do
+    echo -e "${Red}Invalid commit message, must be a conventional commit"
+    echo -ne "${UYellow}Commit Message${Yellow}: "
+    read message
+done
+echo -e "${Color_Off}"
+
+
+if [[ $(pwd) =~ .*"/Users/kkelso/Desktop/projects/bscs-flora".* ]] && [[ "$pr" == "yes" ]]; then
+    echo "While you're waiting, go copy the jira ticket url"
+fi
+
+# Commit logic ----------------------------------------------------------------
+while true; do 
+    nice -n 0 git commit -m "$message" 1> /dev/null
+    if [[ $? == 0 ]]; then break; fi
+    read -p "Try again? " -n 1 -r
+done
+
+while getopts :t:p?: option
+do
+	case "${option}" in
+		t)
+            git fetch --tags
+			echo -e "${Color_Off}$(git tag -l | tail -n 5)"
+			echo -ne "${UCyan}Version Number${Cyan}: "
+			read versionNum
+			echo -e "${Color_Off}"
+			git tag -a v$versionNum HEAD -m "$message" &> /dev/null
+			git push origin v$versionNum &> /dev/null
+			;;
+        p)
+            pr='yes'
+            ;;
+	esac
+done
+
+if [[ $pr == "yes" ]]; then
+    body=$(echo -e "## Changes\n- $message\n")
+    if [[ $(pwd) =~ .*"/Users/kkelso/Desktop/projects/bscs-flora".* ]]; then
+        echo -ne "${UBlue}JIRA ticket URL:${Blue} "
+        read jiraUrl
+        echo -e "${Color_Off}"
+        ticketNumber="$(parseJiraUrl.py $jiraUrl)"
+        body=$(echo -e "## Issue\n[FLORA-$ticketNumber]($jiraUrl)\n\n## Code\n- $message\n")
+    fi
+    gh pr create --title "$message" --body "$body" -w
+fi
+
+git push -u origin $currentBranch &> /dev/null &
