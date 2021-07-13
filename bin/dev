@@ -35,12 +35,11 @@ elif [ "$1" == "hlit" ] || [[ "$currentDir" =~ .*"/Users/kkelso/Desktop/projects
     git pull
     yarn install
     netlify dev --port 8888
-elif [ "$1" == "flora" ] || [[ "$currentDir" =~ .*"/Users/kkelso/Desktop/projects/bscs-flora".* ]]; then
+elif [ "$1" == "flora" ] || [[ "$currentDir" =~ .*"/Users/kkelso/Desktop/projects/flora-test-panel-temp".* ]]; then
     echo "Starting flora"
-    cd /Users/kkelso/Desktop/projects/bscs-flora
+    cd /Users/kkelso/Desktop/projects/flora-test-panel-temp
     git pull
-    /usr/bin/open -a "/Applications/Google Chrome.app" 'http://localhost:3000'
-    npm run dev
+    npm run dev:website
 elif [ "$1" == "hq" ] || [[ "$currentDir" =~ .*"/Users/kkelso/Desktop/projects/collab-hq-gatsby".* ]]; then
     echo "Starting collab-hq"
     cd /Users/kkelso/Desktop/projects/collab-hq-gatsby
