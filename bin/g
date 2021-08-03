@@ -64,7 +64,7 @@ done
 echo -e "${Color_Off}"
 
 
-if [[ $(pwd) =~ .*"/Users/kkelso/Desktop/projects/bscs-flora".* ]] && [[ "$pr" == "yes" ]]; then
+if [[ $(pwd) =~ .*"/Users/kkelso/Desktop/projects/flora".* ]] && [[ "$pr" == "yes" ]]; then
     echo "While you're waiting, go copy the jira ticket url"
 fi
 
@@ -95,7 +95,7 @@ done
 
 if [[ $pr == "yes" ]]; then
     body=$(echo -e "## Changes\n- $message\n")
-    if [[ $(pwd) =~ .*"/Users/kkelso/Desktop/projects/bscs-flora".* ]]; then
+    if [[ $(pwd) =~ .*"/Users/kkelso/Desktop/projects/flora".* ]]; then
         echo -ne "${UBlue}JIRA ticket URL:${Blue} "
         read jiraUrl
         echo -e "${Color_Off}"
