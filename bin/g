@@ -56,14 +56,14 @@ if [[ $? != 0 ]]; then exit 1; fi
 
 echo -ne "${UYellow}Commit Message${Yellow}: "
 message=$(cat commitMsgs.txt | fzf --height 40% --reverse --border --print-query | parse_fzf_query.py)
-echo $message
 while [ "$(validateCommit.py $message)" == "not-valid" ]; do
     echo -e "${Red}Invalid commit message, must be a conventional commit"
     echo -ne "${UYellow}Commit Message${Yellow}: "
     message=$(cat commitMsgs.txt | fzf --height 40% --reverse --border --print-query | parse_fzf_query.py)
 done
+echo $message
 echo -e "${Color_Off}"
-echo $message >> commitMsgs.txt
+add_commit_message.py $message
 
 
 if [[ $(pwd) =~ .*"/Users/kkelso/Desktop/projects/flora".* ]] && [[ "$pr" == "yes" ]]; then
@@ -107,4 +107,4 @@ if [[ $pr == "yes" ]]; then
     gh pr create --title "$message" --body "$body" -w
 fi
 
-git push -u origin $currentBranch 1> /dev/null &
+git push -u origin $currentBranch &> /dev/null &
