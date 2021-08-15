@@ -3,11 +3,8 @@
 import sys
 
 if __name__ == '__main__':
-    if len(sys.argv) == 1 or len(sys.argv) > 3:
-        exit(1)
+    input_lines = []
+    for line in sys.stdin:
+        input_lines.append(line.strip())
 
-    if len(sys.argv) == 3:
-        print(sys.argv[2])
-
-    if len(sys.argv) == 2:
-        print(sys.argv[1])
+    print(list(filter(None, input_lines))[-1])
