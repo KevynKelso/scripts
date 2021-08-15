@@ -25,6 +25,7 @@ Color_Off='\033[0m'       # Text Reset
 currentBranch=$(git branch --show-current)
 pr='no'
 currentTime=$(date "+%Y-%m-%d;%H:%M:%S")
+COMMIT_MSGS_PATH='~/Desktop/projects/scripts/bin/commitMsgs.txt'
 
 # PR logic
 if [ $currentBranch == "main" ] || [ $currentBranch == "master" ]; then
@@ -55,11 +56,11 @@ git status
 if [[ $? != 0 ]]; then exit 1; fi
 
 echo -ne "${UYellow}Commit Message${Yellow}: "
-message=$(cat commitMsgs.txt | fzf --height 40% --reverse --border --print-query | parse_fzf_query.py)
+message=$(cat $COMMIT_MSGS_PATH | fzf --height 40% --reverse --border --print-query | parse_fzf_query.py)
 while [ "$(validateCommit.py $message)" == "not-valid" ]; do
     echo -e "${Red}Invalid commit message, must be a conventional commit"
     echo -ne "${UYellow}Commit Message${Yellow}: "
-    message=$(cat commitMsgs.txt | fzf --height 40% --reverse --border --print-query | parse_fzf_query.py)
+    message=$(cat $COMMIT_MSGS_PATH | fzf --height 40% --reverse --border --print-query | parse_fzf_query.py)
 done
 echo $message
 echo -e "${Color_Off}"
