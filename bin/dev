@@ -39,7 +39,7 @@ elif [ "$1" == "flora" ] || [[ "$currentDir" =~ .*"/Users/kkelso/Desktop/project
     echo "Starting flora"
     cd /Users/kkelso/Desktop/projects/flora-test-panel-temp
     git pull
-    npm run dev:website
+    npm run dev
 elif [ "$1" == "hq" ] || [[ "$currentDir" =~ .*"/Users/kkelso/Desktop/projects/collab-hq-gatsby".* ]]; then
     echo "Starting collab-hq"
     cd /Users/kkelso/Desktop/projects/collab-hq-gatsby
