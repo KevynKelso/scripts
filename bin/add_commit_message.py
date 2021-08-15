@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-COMMIT_MSGS_PATH = '~/Desktop/projects/scripts/bin/commitMsgs.txt'
+COMMIT_MSGS_PATH = '/Users/kkelso/Desktop/projects/scripts/bin/commitMsgs.txt'
 
 import sys
 

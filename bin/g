@@ -25,7 +25,7 @@ Color_Off='\033[0m'       # Text Reset
 currentBranch=$(git branch --show-current)
 pr='no'
 currentTime=$(date "+%Y-%m-%d;%H:%M:%S")
-COMMIT_MSGS_PATH='~/Desktop/projects/scripts/bin/commitMsgs.txt'
+COMMIT_MSGS_PATH='/Users/kkelso/Desktop/projects/scripts/bin/commitMsgs.txt'
 
 # PR logic
 if [ $currentBranch == "main" ] || [ $currentBranch == "master" ]; then
