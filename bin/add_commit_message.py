@@ -14,6 +14,7 @@ def main(message):
             f.write(message)
 
 if __name__ == '__main__':
+    print(sys.argv)
     if len(sys.argv) != 2:
         exit(1)
 
