@@ -50,18 +50,20 @@ fi
 $(git diff >> ~/logging/commit-diff-$currentTime.diff)
 cleanCommit.py $currentTime
 
-git add -A &> /dev/null
+git add -A 1> /dev/null
 git status
 if [[ $? != 0 ]]; then exit 1; fi
 
 echo -ne "${UYellow}Commit Message${Yellow}: "
-read message
+message=$(parse_fzf_query.py $(cat commitMsgs.txt | fzf --height 40% --reverse --border --print-query))
 while [ "$(validateCommit.py $message)" == "not-valid" ]; do
     echo -e "${Red}Invalid commit message, must be a conventional commit"
     echo -ne "${UYellow}Commit Message${Yellow}: "
-    read message
+    message=$(parse_fzf_query.py $(cat test.txt | fzf --height 40% --reverse --border --print-query))
 done
 echo -e "${Color_Off}"
+echo $message
+echo $message >> commitMsgs.txt
 
 
 if [[ $(pwd) =~ .*"/Users/kkelso/Desktop/projects/flora".* ]] && [[ "$pr" == "yes" ]]; then
@@ -84,8 +86,8 @@ do
 			echo -ne "${UCyan}Version Number${Cyan}: "
 			read versionNum
 			echo -e "${Color_Off}"
-			git tag -a v$versionNum HEAD -m "$message" &> /dev/null
-			git push origin v$versionNum &> /dev/null
+			git tag -a v$versionNum HEAD -m "$message" 1> /dev/null
+			git push origin v$versionNum 1> /dev/null
 			;;
         p)
             pr='yes'
@@ -105,4 +107,4 @@ if [[ $pr == "yes" ]]; then
     gh pr create --title "$message" --body "$body" -w
 fi
 
-git push -u origin $currentBranch &> /dev/null &
+git push -u origin $currentBranch 1> /dev/null &
