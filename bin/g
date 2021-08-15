@@ -63,7 +63,7 @@ while [ "$(validateCommit.py $message)" == "not-valid" ]; do
 done
 echo $message
 echo -e "${Color_Off}"
-add_commit_message.py $message
+$message | add_commit_message.py
 
 
 if [[ $(pwd) =~ .*"/Users/kkelso/Desktop/projects/flora".* ]] && [[ "$pr" == "yes" ]]; then
