@@ -7,7 +7,9 @@ def main(message):
     with open('commitMsgs.txt', 'r') as f:
         lines = f.readlines()
 
+    print(lines)
     if message not in lines:
+        print('writing')
         with open('commitMsgs.txt', 'a') as f:
             f.write(message)
 
