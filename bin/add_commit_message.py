@@ -4,6 +4,9 @@ COMMIT_MSGS_PATH = '/Users/kkelso/Desktop/projects/scripts/bin/commitMsgs.txt'
 import sys
 
 def main(message):
+    if message == '':
+        return
+
     lines = []
     with open(COMMIT_MSGS_PATH, 'r') as f:
         lines = f.readlines()
