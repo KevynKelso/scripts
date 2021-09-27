@@ -1,0 +1,8 @@
+#! /bin/bash
+
+cd ~/Desktop/projects/controller/syncydink
+yarn start:remote &
+syncydink.py
+pkill -f chromedriver
+pkill -f start:remote
+pkill -f node
