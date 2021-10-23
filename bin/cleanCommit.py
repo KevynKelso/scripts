@@ -68,7 +68,7 @@ def main(args):
         return
 
     time = args[1]
-    with open(f'/Users/kkelso/logging/commit-diff-{time}.diff', 'r') as f:
+    with open(f'/Users/vyn/logging/commit-diff-{time}.diff', 'r') as f:
         diff_lines = f.readlines()
 
         console_logs_in_diff = match_console_logs(diff_lines)

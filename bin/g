@@ -25,7 +25,7 @@ Color_Off='\033[0m'       # Text Reset
 currentBranch=$(git branch --show-current)
 pr='no'
 currentTime=$(date "+%Y-%m-%d;%H:%M:%S")
-COMMIT_MSGS_PATH='/Users/kkelso/Desktop/projects/scripts/bin/commitMsgs.txt'
+COMMIT_MSGS_PATH='/Users/vyn/projects/scripts/bin/commitMsgs.txt'
 
 # PR logic
 if [ $currentBranch == "main" ] || [ $currentBranch == "master" ]; then
@@ -67,12 +67,12 @@ echo -e "${Color_Off}"
 echo $message | add_commit_message.py
 
 
-if [[ $(pwd) =~ .*"/Users/kkelso/Desktop/projects/flora".* ]] && [[ "$pr" == "yes" ]]; then
+if [[ $(pwd) =~ .*"/Users/vyn/projects/flora".* ]] && [[ "$pr" == "yes" ]]; then
     echo "While you're waiting, go copy the jira ticket url"
 fi
 
 # Commit logic ----------------------------------------------------------------
-while true; do 
+while true; do
     nice -n 0 git commit -m "$message" 1> /dev/null
     if [[ $? == 0 ]]; then break; fi
     read -p "Try again? " -n 1 -r
@@ -98,7 +98,7 @@ done
 
 if [[ $pr == "yes" ]]; then
     body=$(echo -e "## Changes\n- $message\n")
-    if [[ $(pwd) =~ .*"/Users/kkelso/Desktop/projects/flora".* ]]; then
+    if [[ $(pwd) =~ .*"/Users/vyn/projects/flora".* ]]; then
         echo -ne "${UBlue}JIRA ticket URL:${Blue} "
         read jiraUrl
         echo -e "${Color_Off}"
